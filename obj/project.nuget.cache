@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "JZSuZE2i3rDQLDCBKP6XdjTYgZYYyBynHVN2BLVpLi8MZCSnJVPjz39EiU/sUt5ELFh0mwLDA82zw9PoEAcVIA==",
+  "success": true,
+  "projectFilePath": "/home/ubuntu/sample_psql/sample_psql.csproj",
+  "expectedPackageFiles": [
+    "/home/ubuntu/.nuget/packages/microsoft.extensions.dependencyinjection.abstractions/8.0.0/microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512",
+    "/home/ubuntu/.nuget/packages/microsoft.extensions.logging.abstractions/8.0.0/microsoft.extensions.logging.abstractions.8.0.0.nupkg.sha512",
+    "/home/ubuntu/.nuget/packages/npgsql/8.0.1/npgsql.8.0.1.nupkg.sha512"
+  ],
+  "logs": []
+}
