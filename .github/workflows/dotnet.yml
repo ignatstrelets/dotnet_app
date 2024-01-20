@@ -31,13 +31,13 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
-      run: dotnet build --no-restore --output ~/dotnet_app/
+      run: dotnet build --no-restore --output dotnet_app
     - name: Test
       run: dotnet test --no-build --verbosity normal
     - name: Zip Directory
       run: |
-        rm -rf ~/dotnet_app.zip
-        zip -r ~/dotnet_app.zip ~/dotnet_app/ 
+        rm -rf dotnet_app.zip
+        zip -r dotnet_app.zip dotnet_app 
     - if: github.event.inputs.upload_artifact == 'true'
       name: Upload to S3
       uses: shallwefootball/s3-upload-action@master
@@ -45,5 +45,5 @@ jobs:
         aws_key_id: ${{ secrets.AWS_KEY_ID }}
         aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
         aws_bucket: ${{ secrets.AWS_BUCKET }}
-        source_dir: ~/dotnet_app.zip
+        source_dir: dotnet_app.zip
         
