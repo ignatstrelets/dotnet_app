@@ -1,0 +1,11 @@
+---
+- name: 'Setup .NET Server with Logging Agent'
+  hosts: default
+  become: true
+
+  tasks:
+    - name: udgrade packages
+      apt:
+        upgrade: yes
+        update_cache: yes
+        cache_valid_time: 86400
