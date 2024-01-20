@@ -15,6 +15,9 @@ on:
         required: true
         default: 'true'    
 
+env: 
+  AWS_BUCKET_URI: ${{ secrets.AWS_BUCKET_URI}}
+
 jobs:
   build:
 
@@ -51,5 +54,5 @@ jobs:
     - if: github.event.inputs.upload_artifact == 'true'  
       name: Configure AWS Credentials and Upload to S3       
       run: |
-        aws s3 sync build s3://dotnet-app-build-artifact --delete  
+        aws s3 sync /tmp/upload $AWS_BUCKET_URI --delete  
         
