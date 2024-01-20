@@ -42,7 +42,7 @@ jobs:
       run: |
         rm -rf ~/dotnet_app.zip
         zip -r ~/dotnet_app.zip ~/dotnet_app/ 
-    - if: github.event.inputs.publish_artifacts == 'true'
+    - if: github.event.inputs.upload_artifact == 'true'
       name: Upload to S3
       uses: shallwefootball/s3-upload-action@master
       with:
