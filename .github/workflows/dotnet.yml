@@ -41,6 +41,11 @@ jobs:
       run: |
         mkdir /tmp/upload
         mv dotnet_app.zip /tmp/upload/
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        role-to-assume: arn:aws:iam::612548706164:role/github-actions-s3-upload
+        aws-region: eu-north-1    
     - if: github.event.inputs.upload_artifact == 'true'
       name: Upload to S3
       id: S3
