@@ -41,18 +41,15 @@ jobs:
       run: |
         mkdir /tmp/upload
         mv dotnet_app.zip /tmp/upload/
-    - name: Configure AWS Credentials
+    - if: github.event.inputs.upload_artifact == 'true'  
+      name: Configure AWS Credentials and Upload to S3
       uses: aws-actions/configure-aws-credentials@v4
-      with:
-        role-to-assume: arn:aws:iam::612548706164:role/github-actions-s3-upload
-        aws-region: eu-north-1    
-    - if: github.event.inputs.upload_artifact == 'true'
-      name: Upload to S3
-      id: S3
-      uses: shallwefootball/s3-upload-action@master
       with:
         aws_key_id: ${{ secrets.AWS_KEY_ID }}
         aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
-        aws_bucket: ${{ secrets.AWS_BUCKET }}
-        source_dir: /tmp/upload
+        aws-region: eu-north-1
+    - if: github.event.inputs.upload_artifact == 'true'  
+      name: Configure AWS Credentials and Upload to S3       
+      run: |
+        aws s3 sync build s3://dotnet-app-build-artifact --delete  
         
