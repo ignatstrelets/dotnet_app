@@ -10,10 +10,6 @@ on:
     branches: [ "master" ]
   workflow_dispatch:
     inputs:
-      flutter_version:
-        description: 'Framework version'
-        required: false
-        default: ''
       upload_artifact:
         description: 'Upload artifact'
         required: true
