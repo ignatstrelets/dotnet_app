@@ -4,8 +4,8 @@ After=network.target
 
 [Service]
 Type=simple
-User=ubuntu
-ExecStart=dotnet <path to app.dll> 
+User=app
+ExecStart=dotnet /home/app/dotnet_app/app.dll 
 StandardOutput=append:/var/log/dotnet_app/app.log
 StandardError=append:/var/log/dotnet_app/app.log 
 TimeoutSec = 120
