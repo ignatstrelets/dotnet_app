@@ -52,7 +52,7 @@
     - name: Write actual Loki IPv4 addresss
       lineinfile:
         path: "/etc/hosts"
-        line: "10.0.0.1 loki" 
+        line: "10.0.1.1 loki" 
         insertbefore: BOF
 
     - name: Create directory for .NET App logs
