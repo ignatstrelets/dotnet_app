@@ -57,12 +57,10 @@ class Program
 
     static void Main(string[] args)
     {   
-	string dbHost = "localhost";
+	string dbHost = Environment.GetEnvironmentVariable("DB_HOST");
 	string dbUsername = Environment.GetEnvironmentVariable("DB_USERNAME");
         string dbPassword = Environment.GetEnvironmentVariable("DB_PASSWORD");
 	string dbName = Environment.GetEnvironmentVariable("DB_NAME");
-
-	//set db host as rds endpoint url
 
 	string connectionString = string.Format("Host={0};Port=5432;Username={1};Password={2};Database={3};",dbHost,dbUsername,dbPassword,dbName);
         NpgsqlConnection connection = new NpgsqlConnection(connectionString);
