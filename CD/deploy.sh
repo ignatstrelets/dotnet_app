@@ -16,4 +16,4 @@ export DB_PASSWORD=$(aws secretsmanager get-secret-value \
 --secret-id <secret_arn> \
 --query SecretString --output text | jq -r '."DB_PASSWORD"')
 systemctl import-environment DB_HOST DB_NAME DB_USERNAME DB_PASSWORD
-systemctl start dotnet-app
+systemctl restart dotnet-app
