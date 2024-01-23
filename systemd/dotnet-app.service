@@ -5,7 +5,7 @@ After=network.target
 [Service]
 Type=simple
 User=ubuntu
-ExecStart=dotnet run --project /home/ubuntu/sample_psql 
+ExecStart=dotnet <path to app.dll> 
 StandardOutput=append:/var/log/dotnet_app/app.log
 StandardError=append:/var/log/dotnet_app/app.log 
 TimeoutSec = 120
