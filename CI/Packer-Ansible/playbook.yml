@@ -52,7 +52,7 @@
     - name: Write actual Loki IPv4 addresss
       lineinfile:
         path: "/etc/hosts"
-        line: "13.49.224.175 loki" 
+        line: "10.0.0.1 loki" 
         insertbefore: BOF
 
     - name: Create directory for .NET App logs
@@ -67,15 +67,47 @@
 
     - name: Add reading permissions for application log
       shell: |
-        chmod 640 /var/log/dotnet_app/app.log 
+        chmod 644 /var/log/dotnet_app/app.log 
+
+    - name: Install unzip utility
+      apt:
+        name: unzip
+        state: present  
 
     - name: Install AWS CLI
       shell: |
         curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-        unzip -f awscliv2.zip
-        ./aws/install --update 
+        unzip awscliv2.zip
+        ./aws/install     
 
     - name: Remove AWS CLI archive
       file:
         path: "awscliv2.zip"
-        state: absent
+        state: absent 
+  
+    - name: Create user for .NET App
+      user:
+        name: app
+        state: present
+        shell: /bin/bash
+        createhome: yes
+        home: /home/app          
+
+    - name: Create systemd unit for .NET App
+      copy:
+        src: "systemd/dotnet-app.service"
+        dest: "/etc/systemd/system/dotnet-app.service"
+
+    - name: Reload systemd
+      systemd:
+        daemon_reload: true
+
+    - name: Enable .NET App service
+      service:
+        name: dotnet-app
+        enabled: yes
+
+    - name: Install JQ to parse data from AWS Secrets Manager
+      apt:
+        name: jq
+        state: present
