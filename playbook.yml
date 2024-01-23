@@ -4,8 +4,78 @@
   become: true
 
   tasks:
-    - name: udgrade packages
+    - name: Upgrade Packages
       apt:
         upgrade: yes
         update_cache: yes
         cache_valid_time: 86400
+    - name: Download MS product repository
+      get_url:
+        url: https://packages.microsoft.com/config/ubuntu/22.04/packages-microsoft-prod.deb
+        dest: /tmp/packages-microsoft-prod.deb 
+
+    - name: Install MS product repository
+      apt: deb=/tmp/packages-microsoft-prod.deb
+
+    - name: Make sure HTTPS is supported by apt
+      apt:
+        name: apt-transport-https
+        state: present
+
+    - name: Install .NET Core SDK
+      apt:
+        name: dotnet-sdk-8.0
+        state: present
+        update_cache: yes
+
+    - name: Download Grafana Labs's package repository
+      shell: |
+        mkdir -p /etc/apt/keyrings/
+        wget -q -O - https://apt.grafana.com/gpg.key | gpg --dearmor > /etc/apt/keyrings/grafana.gpg
+        echo "deb [signed-by=/etc/apt/keyrings/grafana.gpg] https://apt.grafana.com stable main" | tee /etc/apt/sources.list.d/grafana.list
+
+    - name: Install Promtail Logging Agent
+      apt:
+        name: promtail
+        state: present
+        update_cache: yes  
+
+    - name: Replace the content of Promtail config
+      copy:
+        src: promtail/config.yml 
+        dest: /etc/promtail/config.yml
+
+    - name: Add positions reading permissions for Promtail
+      shell: |
+        chown promtail /tmp/positions.yaml      
+
+    - name: Write actual Loki IPv4 addresss
+      lineinfile:
+        path: "/etc/hosts"
+        line: "13.49.224.175 loki" 
+        insertbefore: BOF
+
+    - name: Create directory for .NET App logs
+      file:
+        path: /var/log/dotnet_app
+        state: directory
+
+    - name: Create log file for .NET App
+      file:
+        path: "/var/log/dotnet_app/app.log"
+        state: touch
+
+    - name: Add reading permissions for application log
+      shell: |
+        chmod 640 /var/log/dotnet_app/app.log 
+
+    - name: Install AWS CLI
+      shell: |
+        curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+        unzip -f awscliv2.zip
+        ./aws/install --update 
+
+    - name: Remove AWS CLI archive
+      file:
+        path: "awscliv2.zip"
+        state: absent
