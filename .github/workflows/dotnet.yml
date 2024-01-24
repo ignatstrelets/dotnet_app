@@ -1,0 +1,58 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: .NET
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+  workflow_dispatch:
+    inputs:
+      upload_artifact:
+        description: 'Upload artifact'
+        required: true
+        default: 'true'    
+
+env: 
+  AWS_BUCKET_URI: ${{ secrets.AWS_BUCKET_URI}}
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 8.0.x
+    - name: Add PostgreSQL provider
+      run: dotnet add package Npgsql
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --no-restore --output dotnet_app
+    - name: Test
+      run: dotnet test --no-build --verbosity normal
+    - name: Zip Directory
+      run: |
+        zip -r dotnet_app.zip dotnet_app
+    - name: Prepare for Upload
+      run: |
+        mkdir /tmp/upload
+        mv dotnet_app.zip /tmp/upload/
+    - if: github.event.inputs.upload_artifact == 'true'  
+      name: Configure AWS Credentials and Upload to S3
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
+        aws-region: eu-north-1
+    - if: github.event.inputs.upload_artifact == 'true'  
+      name: Configure AWS Credentials and Upload to S3       
+      run: |
+        aws s3 sync /tmp/upload $AWS_BUCKET_URI --delete  
+        

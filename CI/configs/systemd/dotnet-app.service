@@ -1,0 +1,16 @@
+[Unit]
+Description=Dotnet application service
+After=network.target
+
+[Service]
+Type=simple
+User=app
+ExecStart=dotnet /home/app/dotnet_app/app.dll 
+StandardOutput=append:/var/log/dotnet_app/app.log
+StandardError=append:/var/log/dotnet_app/app.log 
+TimeoutSec = 120
+Restart = on-failure
+RestartSec = 2
+
+[Install]
+WantedBy=multi-user.target
