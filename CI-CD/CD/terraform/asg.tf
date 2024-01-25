@@ -6,7 +6,7 @@ resource "aws_autoscaling_group" "dotnet-app-server-asg" {
   launch_template {
     id = aws_launch_template.ubuntu-dotnet-promtail
   }
-  vpc_zone_identifier = data.aws_subnet.public
+  vpc_zone_identifier = data.aws_subnet.public.id
   load_balancers = [aws_elb.elb.id]
 }
 
