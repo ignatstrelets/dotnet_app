@@ -1,11 +1,11 @@
 resource "aws_security_group" "dotnet-loki-sg" {
-  name = "dotnet-elb-sg"
+  name = "dotnet-loki-sg"
   vpc_id = aws_vpc.dotnet.id
 }
 
 resource "aws_security_group_rule" "ingress_loki_http" {
   from_port         = 3100
-  protocol          = "http"
+  protocol          = "tcp"
   security_group_id = aws_security_group.dotnet-loki-sg.id
   to_port           = 3100
   type              = "ingress"
@@ -14,7 +14,7 @@ resource "aws_security_group_rule" "ingress_loki_http" {
 
 resource "aws_security_group_rule" "ingress_grafana_http" {
   from_port         = 3000
-  protocol          = "http"
+  protocol          = "tcp"
   security_group_id = aws_security_group.dotnet-loki-sg.id
   to_port           = 3000
   type              = "ingress"

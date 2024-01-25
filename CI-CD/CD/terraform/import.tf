@@ -13,6 +13,7 @@ data "aws_subnet" "public" {
 
   tags = {
     Tier = "Public"
+    AZ = "a"
   }
 }
 

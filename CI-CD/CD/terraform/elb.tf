@@ -4,14 +4,14 @@ resource "aws_security_group" "dotnet-elb-sg" {
   ingress {
     from_port = 80
     to_port = 80
-    protocol = "http"
+    protocol = "tcp"
     cidr_blocks      = ["0.0.0.0/0"]
   }
 }
 
 resource "aws_security_group_rule" "egress_http" {
   from_port         = 8000
-  protocol          = "http"
+  protocol          = "tcp"
   security_group_id = aws_security_group.dotnet-elb-sg.id
   to_port           = 8000
   type              = "egress"
@@ -27,9 +27,9 @@ resource "aws_elb" "elb" {
   security_groups = [aws_security_group.dotnet-elb-sg.id]
   listener {
     instance_port     = 8000
-    instance_protocol = "http"
+    instance_protocol = "tcp"
     lb_port           = 80
-    lb_protocol       = "http"
+    lb_protocol       = "tcp"
   }
   health_check {
     healthy_threshold   = 10

@@ -4,9 +4,9 @@ resource "aws_autoscaling_group" "dotnet-app-server-asg" {
   desired_capacity = 1
   default_cooldown = 120
   launch_template {
-    id = aws_launch_template.ubuntu-dotnet-promtail
+    id = aws_launch_template.ubuntu-dotnet-promtail.id
   }
-  vpc_zone_identifier = data.aws_subnet.public.id
+  vpc_zone_identifier = [data.aws_subnet.public.availability_zone_id]
   load_balancers = [aws_elb.elb.id]
 }
 
