@@ -18,13 +18,22 @@ resource "aws_security_group_rule" "ingress_grafana_http" {
   security_group_id = aws_security_group.dotnet-loki-sg.id
   to_port           = 3000
   type              = "ingress"
-  cidr_blocks = ["89.232.40.100/32"]
+  cidr_blocks = [var.my_ip_cidr_block]
 }
 
 resource "aws_instance" "loki" {
-  ami           = "ami-00bad1a01230aaace"
+  ami           = var.loki_ami_id
   instance_type = "t3.micro"
   subnet_id = data.aws_subnet.private-a.id
   private_ip = "10.0.1.1"
 }
+
+
+
+
+
+
+
+
+
 

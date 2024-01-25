@@ -39,3 +39,9 @@ resource "aws_elb" "elb" {
     interval            = 5
   }
 }
+
+
+
+
+
+

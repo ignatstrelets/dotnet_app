@@ -1,6 +1,6 @@
 import {
   to = aws_vpc.dotnet
-  id = vpc-0bee1c0b603c194b2
+  id = var.vpc_id
 }
 
 resource "aws_vpc" "dotnet" {}
