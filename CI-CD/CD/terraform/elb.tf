@@ -1,6 +1,6 @@
 resource "aws_security_group" "dotnet-elb-sg" {
   name = "dotnet-elb-sg"
-  vpc_id = aws_vpc.dotnet.id
+  vpc_id = data.aws_vpc.dotnet.id
   ingress {
     from_port = 80
     to_port = 80

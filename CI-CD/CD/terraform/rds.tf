@@ -1,6 +1,6 @@
 resource "aws_security_group" "dotnet-rds-sg" {
   name = "dotnet-rds-sg"
-  vpc_id = aws_vpc.dotnet.id
+  vpc_id = data.aws_vpc.dotnet.id
 }
 
 resource "aws_security_group_rule" "ingress_postgres" {
@@ -31,6 +31,7 @@ resource "aws_db_instance" "postgres" {
   username = var.db_username
   password = var.db_password
   backup_retention_period = 7
+  skip_final_snapshot = true
 }
 
 

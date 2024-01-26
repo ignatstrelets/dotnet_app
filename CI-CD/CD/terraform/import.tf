@@ -1,14 +1,14 @@
-import {
-  to = aws_vpc.dotnet
-  id = var.vpc_id
+data "aws_vpc" "dotnet" {
+  filter {
+    name   = "vpc-id"
+    values = [var.vpc_id]
+  }
 }
-
-resource "aws_vpc" "dotnet" {}
 
 data "aws_subnet" "public" {
   filter {
     name   = "vpc-id"
-    values = [aws_vpc.dotnet.id]
+    values = [data.aws_vpc.dotnet.id]
   }
 
   tags = {
@@ -20,7 +20,7 @@ data "aws_subnet" "public" {
 data "aws_subnet" "private-a" {
   filter {
     name   = "vpc-id"
-    values = [aws_vpc.dotnet.id]
+    values = [data.aws_vpc.dotnet.id]
   }
 
   tags = {
@@ -32,7 +32,7 @@ data "aws_subnet" "private-a" {
 data "aws_subnet" "private-b" {
   filter {
     name   = "vpc-id"
-    values = [aws_vpc.dotnet.id]
+    values = [data.aws_vpc.dotnet.id]
   }
 
   tags = {
@@ -40,5 +40,6 @@ data "aws_subnet" "private-b" {
     AZ = "b"
   }
 }
+
 
 

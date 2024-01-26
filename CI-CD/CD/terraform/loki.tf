@@ -1,6 +1,6 @@
 resource "aws_security_group" "dotnet-loki-sg" {
   name = "dotnet-loki-sg"
-  vpc_id = aws_vpc.dotnet.id
+  vpc_id = data.aws_vpc.dotnet.id
 }
 
 resource "aws_security_group_rule" "ingress_loki_http" {
@@ -24,8 +24,10 @@ resource "aws_security_group_rule" "ingress_grafana_http" {
 resource "aws_instance" "loki" {
   ami           = var.loki_ami_id
   instance_type = "t3.micro"
-  subnet_id = data.aws_subnet.private-a.id
+  subnet_id = data.aws_subnet.public.id
   private_ip = "10.0.1.1"
+  associate_public_ip_address = true
+  security_groups = [aws_security_group.dotnet-loki-sg.id]
 }
 
 
