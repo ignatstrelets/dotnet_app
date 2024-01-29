@@ -1,4 +1,4 @@
-# dotnet_app
+# .NET App Deployment with autoscaling, pre-built AMI and monitoring setup
 ##### Deployment to Amazon Web Services via Terraform
 <img width="685" alt="dotnet-tf" src="https://github.com/ignatstrelets/dotnet_app/assets/120760559/f741c486-7409-4be8-b407-7338fa4143ac">
 
@@ -11,5 +11,6 @@
 ##### Check HTTP Connection via Browser
 <img width="802" alt="dotnet-elb" src="https://github.com/ignatstrelets/dotnet_app/assets/120760559/4c486728-23ea-420d-92cf-4aeefd888419">
 
+# [Link to An Alternative (Serverless) Solution](https://github.com/ignatstrelets/dotnet_app_lambda) 
 
 
