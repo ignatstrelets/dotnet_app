@@ -11,6 +11,6 @@
 ##### Check HTTP Connection via Browser
 <img width="802" alt="dotnet-elb" src="https://github.com/ignatstrelets/dotnet_app/assets/120760559/4c486728-23ea-420d-92cf-4aeefd888419">
 
-# [Link to An Alternative (Serverless) Solution](https://github.com/ignatstrelets/dotnet_app_lambda) 
+# [Link to An Alternative (Serverless) Solution](https://github.com/ignatstrelets/dotnet_lambda_app.git) 
 
 
